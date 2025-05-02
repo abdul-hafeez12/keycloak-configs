@@ -18,12 +18,10 @@ Ensure you have the following tools installed:
 
 First, we’ll create a Keycloak container that runs on Docker. Follow these steps:
 
-#### a. Pull the Keycloak Docker Image:
+#### a. Pull && RUN Keycloak Docker Image:
 ```bash
  docker run -p 7070:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:26.1.4 start-dev
- 
 ```
-
 #### b. Pull && RUN MySql Docker Image:
 ```bash
 docker pull mysql:latest
@@ -53,5 +51,161 @@ CREATE TABLE user(
   );
    
 INSERT INTO user(user_id,password,brn_cd,full_name) VALUES ('jalal','teersol123',1001,'Jalal Hasan'); 
-INSERT INTO user(user_id,password,brn_cd,full_name) VALUES ('abdul','teersol123',1025,'Abdul Hafeez'); 
+INSERT INTO user(user_id,password,brn_cd,full_name) VALUES ('abdul','teersol123',1025,'Abdul Hafeez');
 ```
+
+## 2. Build the React.js Application
+Now, let's build the React.js application that will interact with Keycloak.
+
+### a. Initialize a React.js Application
+
+npx create-react-app keycloak-react-app
+cd keycloak-react-app
+### b. Install Keycloak.js
+To enable React.js to authenticate users via Keycloak, install the keycloak-js library:
+npm install keycloak-js
+### c. Set Up Keycloak in React.js
+In the src folder of your React app, create a KeycloakService.js file to manage the Keycloak authentication flow:
+
+// src/KeycloakService.js
+import Keycloak from 'keycloak-js';
+
+const keycloak = new Keycloak({
+  url: 'http://localhost:8080/auth',
+  realm: 'myrealm',
+  clientId: 'myreactapp'
+});
+
+export default keycloak;
+### d. Initialize Keycloak in App.js
+In your src/App.js file, initialize Keycloak and handle the login state:
+
+// src/App.js
+import React, { useEffect, useState } from 'react';
+import keycloak from './KeycloakService';
+
+function App() {
+  const [authenticated, setAuthenticated] = useState(false);
+
+  useEffect(() => {
+    keycloak.init({ onLoad: 'login-required' }).then(authenticated => {
+      setAuthenticated(authenticated);
+    });
+  }, []);
+
+  if (!authenticated) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div>
+      <h1>Welcome to Keycloak with React</h1>
+      <button onClick={() => keycloak.logout()}>Logout</button>
+    </div>
+  );
+}
+
+export default App;
+### Now, your React app will authenticate against Keycloak when loaded and display a "Logout" button after authentication.
+
+## 3. Integrate External Service Using User Storage SPI
+Keycloak allows you to integrate an external service to manage user storage using the User Storage SPI (Service Provider Interface).
+
+### a. Create a Custom User Storage SPI Provider
+To create the SPI, implement a custom provider. Here is an example project structure:
+
+user-storage-spi/
+├── src/
+│   ├── main/
+│   │   └── java/
+│   │       └── com/
+│   │           └── example/
+│   │               └── MyExternalUserStorageProvider.java
+│   ├── resources/
+│   │   └── META-INF/
+│   │       └── services/
+│   │           └── org.keycloak.storage.UserStorageProviderFactory
+│   └── pom.xml
+Example code for MyExternalUserStorageProvider.java:
+
+package com.example;
+
+import org.keycloak.models.UserModel;
+import org.keycloak.storage.UserStorageProvider;
+import org.keycloak.storage.UserStorageProviderModel;
+
+public class MyExternalUserStorageProvider implements UserStorageProvider {
+
+    private final UserStorageProviderModel model;
+
+    public MyExternalUserStorageProvider(UserStorageProviderModel model) {
+        this.model = model;
+    }
+
+    @Override
+    public void close() {
+        // Close resources if necessary
+    }
+
+    // Implement methods for interacting with your external user service
+}
+### b. Build and Deploy the SPI
+Build the JAR file with Maven:
+
+mvn clean install
+Copy the JAR to the Keycloak container:
+
+docker cp /path/to/user-storage-spi/target/my-external-user-storage.jar keycloak:/opt/keycloak/standalone/deployments/
+c. Configure Keycloak to Use the SPI
+Log in to the Keycloak Admin Console at http://localhost:8080.
+
+Navigate to User Federation > External User Storage.
+
+Select your custom User Storage SPI integration from the dropdown.
+
+## 4. Add a Custom Login Theme to Keycloak
+### a. Prepare Your Custom Theme
+Ensure your custom login theme is structured correctly:
+themes/
+└── my_custom_theme/
+    └── login/
+        ├── theme.properties
+        ├── login.ftl
+        └── styles.css
+### b. Copy the Custom Theme into Keycloak
+Copy the theme into the Keycloak container:
+
+docker cp /path/to/my_custom_theme keycloak:/opt/keycloak/themes/
+### c. Configure Keycloak to Use the Custom Theme
+Log in to the Keycloak Admin Console at http://localhost:8080.
+
+Navigate to Realm Settings > Themes.
+
+Under Login Theme, select my_custom_theme.
+
+Save the changes.
+
+### 5. Restart Keycloak
+After applying the custom theme and SPI changes, restart Keycloak:
+docker restart keycloak
+### 6. Verify the Setup
+React App: Open your React app at http://localhost:3000 in your browser. It should automatically redirect to Keycloak for authentication and display the custom login page.
+
+Keycloak: Visit http://localhost:8080 and verify the custom theme is applied to the login page.
+
+### User Storage SPI: Verify that Keycloak is interacting with your external user service as expected.
+
+
+
+
+### Key Points in This Guide:
+- **React.js Integration**: React.js is integrated with Keycloak using `keycloak-js` for authentication.
+- **User Storage SPI**: Custom SPI is created to interact with an external user service.
+- **Custom Login Theme**: Custom login theme is applied to Keycloak.
+- **Dockerization**: Keycloak is containerized for easy deployment.
+
+Let me know if you need further clarification or help!
+
+
+
+
