@@ -82,9 +82,11 @@ const keycloak = new Keycloak({
 });
 
 export default keycloak;
+```
 ### d. Initialize Keycloak in App.js
 In your src/App.js file, initialize Keycloak and handle the login state:
 
+```
 // src/App.js
 import React, { useEffect, useState } from 'react';
 import keycloak from './KeycloakService';
@@ -119,7 +121,7 @@ Keycloak allows you to integrate an external service to manage user storage usin
 
 ### a. Create a Custom User Storage SPI Provider
 To create the SPI, implement a custom provider. Here is an example project structure:
-
+```
 user-storage-spi/
 ├── src/
 │   ├── main/
@@ -132,8 +134,10 @@ user-storage-spi/
 │   │       └── services/
 │   │           └── org.keycloak.storage.UserStorageProviderFactory
 │   └── pom.xml
-Example code for MyExternalUserStorageProvider.java:
 
+```
+### Example code for MyExternalUserStorageProvider.java:
+```
 package com.example;
 
 import org.keycloak.models.UserModel;
@@ -155,14 +159,21 @@ public class MyExternalUserStorageProvider implements UserStorageProvider {
 
     // Implement methods for interacting with your external user service
 }
+```
+
 ### b. Build and Deploy the SPI
+
 Build the JAR file with Maven:
 
+```
 mvn clean install
-Copy the JAR to the Keycloak container:
-
+```
+## Copy the JAR to the Keycloak container:
+```
 docker cp /path/to/user-storage-spi/target/my-external-user-storage.jar keycloak:/opt/keycloak/standalone/deployments/
-c. Configure Keycloak to Use the SPI
+```
+# c. Configure Keycloak to Use the SPI
+
 Log in to the Keycloak Admin Console at http://localhost:8080.
 
 Navigate to User Federation > External User Storage.
@@ -170,18 +181,24 @@ Navigate to User Federation > External User Storage.
 Select your custom User Storage SPI integration from the dropdown.
 
 ## 4. Add a Custom Login Theme to Keycloak
+
 ### a. Prepare Your Custom Theme
 Ensure your custom login theme is structured correctly:
+```
 themes/
 └── my_custom_theme/
     └── login/
         ├── theme.properties
         ├── login.ftl
         └── styles.css
+```
 ### b. Copy the Custom Theme into Keycloak
-Copy the theme into the Keycloak container:
 
+Copy the theme into the Keycloak container:
+```
 docker cp /path/to/my_custom_theme keycloak:/opt/keycloak/themes/
+```
+
 ### c. Configure Keycloak to Use the Custom Theme
 Log in to the Keycloak Admin Console at http://localhost:8080.
 
