@@ -1,4 +1,4 @@
-# my-external-service for geting user from database
+# External-service for getting user from database
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
