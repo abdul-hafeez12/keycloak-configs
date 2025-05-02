@@ -53,9 +53,9 @@ CREATE TABLE user(
 INSERT INTO user(user_id,password,brn_cd,full_name) VALUES ('jalal','teersol123',1001,'Jalal Hasan'); 
 INSERT INTO user(user_id,password,brn_cd,full_name) VALUES ('abdul','teersol123',1025,'Abdul Hafeez');
 
+```
 ![p5](https://github.com/user-attachments/assets/98855666-e76a-4c7f-8260-570dc79ec0da)
 
-```
 
 ## 2. Build the React.js Application
 Now, let's build the React.js application that will interact with Keycloak.
