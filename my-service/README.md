@@ -1,4 +1,4 @@
-# dataccess-ms-aaa
+# my-external-service for geting user from database
 
 This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
