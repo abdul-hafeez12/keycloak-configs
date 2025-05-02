@@ -25,7 +25,7 @@ First, we’ll create a Keycloak container that runs on Docker. Follow these ste
 ```
 
 #### b. Pull && RUN MySql Docker Image:
-``bash
+```bash
 docker pull mysql:latest
 docker run --name test-mysql -e MYSQL_ROOT_PASSWORD=password12 -d mysql
 docker exec -it test-mysql bash
