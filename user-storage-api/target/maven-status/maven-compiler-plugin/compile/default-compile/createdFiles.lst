@@ -1,0 +1,7 @@
+com/ahafeez/aaa/readonly/dto/UserDto.class
+com/ahafeez/aaa/readonly/services/UserAdapter.class
+com/ahafeez/aaa/readonly/webclient/WebClient.class
+com/ahafeez/aaa/readonly/services/CustomUserStorageProvider.class
+com/ahafeez/aaa/readonly/dto/UserRoleDto.class
+com/ahafeez/aaa/readonly/dto/RequestMessageDto.class
+com/ahafeez/aaa/readonly/services/CustomUserStorageProviderFactory.class
