@@ -58,15 +58,19 @@ INSERT INTO user(user_id,password,brn_cd,full_name) VALUES ('abdul','teersol123'
 Now, let's build the React.js application that will interact with Keycloak.
 
 ### a. Initialize a React.js Application
-
+```
 npx create-react-app keycloak-react-app
 cd keycloak-react-app
+```
+
 ### b. Install Keycloak.js
 To enable React.js to authenticate users via Keycloak, install the keycloak-js library:
+```
 npm install keycloak-js
+``
 ### c. Set Up Keycloak in React.js
 In the src folder of your React app, create a KeycloakService.js file to manage the Keycloak authentication flow:
-
+```
 // src/KeycloakService.js
 import Keycloak from 'keycloak-js';
 
@@ -106,6 +110,7 @@ function App() {
 }
 
 export default App;
+```
 ### Now, your React app will authenticate against Keycloak when loaded and display a "Logout" button after authentication.
 
 ## 3. Integrate External Service Using User Storage SPI
