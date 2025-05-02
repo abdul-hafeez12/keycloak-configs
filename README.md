@@ -19,8 +19,9 @@ Ensure you have the following tools installed:
 First, we’ll create a Keycloak container that runs on Docker. Follow these steps:
 
 #### a. Pull the Keycloak Docker Image:
-``bash
+```bash
  docker run -p 7070:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:26.1.4 start-dev
+ 
 ```
 
 #### b. Pull && RUN MySql Docker Image:
