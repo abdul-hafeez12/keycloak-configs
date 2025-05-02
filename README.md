@@ -67,9 +67,10 @@ cd keycloak-react-app
 To enable React.js to authenticate users via Keycloak, install the keycloak-js library:
 ```
 npm install keycloak-js
-``
+```
 ### c. Set Up Keycloak in React.js
 In the src folder of your React app, create a KeycloakService.js file to manage the Keycloak authentication flow:
+
 ```
 // src/KeycloakService.js
 import Keycloak from 'keycloak-js';
