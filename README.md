@@ -117,9 +117,11 @@ function App() {
 
 export default App;
 ```
-### Now, your React app will authenticate against Keycloak when loaded and display a "Logout" button after authentication.
+ Now, your React app will authenticate against Keycloak when loaded and display a "Logout" button after authentication.
 
-## 3. Integrate External Service Using User Storage SPI
+![p6](https://github.com/user-attachments/assets/9a8e2b48-6c51-4ffe-9ead-6ab23509022a)
+
+# 3. Integrate External Service Using User Storage SPI
 Keycloak allows you to integrate an external service to manage user storage using the User Storage SPI (Service Provider Interface).
 
 ### a. Create a Custom User Storage SPI Provider
@@ -177,11 +179,14 @@ docker cp /path/to/user-storage-spi/target/my-external-user-storage.jar keycloak
 ```
 # c. Configure Keycloak to Use the SPI
 
-Log in to the Keycloak Admin Console at http://localhost:8080.
+Log in to the Keycloak Admin Console at http://localhost:7070.
 
 Navigate to User Federation > External User Storage.
 
 Select your custom User Storage SPI integration from the dropdown.
+![p4](https://github.com/user-attachments/assets/b10e6389-e388-4164-861b-2b0d8b738e54)
+![p2](https://github.com/user-attachments/assets/2e914128-32bf-413b-b39a-97e7f60ca4bd)
+
 
 ## 4. Add a Custom Login Theme to Keycloak
 
@@ -203,13 +208,15 @@ docker cp /path/to/my_custom_theme keycloak:/opt/keycloak/themes/
 ```
 
 ### c. Configure Keycloak to Use the Custom Theme
-Log in to the Keycloak Admin Console at http://localhost:8080.
+Log in to the Keycloak Admin Console at http://localhost:7070.
 
 Navigate to Realm Settings > Themes.
 
 Under Login Theme, select my_custom_theme.
 
 Save the changes.
+![p3](https://github.com/user-attachments/assets/c99c34e0-ebcb-421d-9657-892a6e292fa5)
+
 
 ### 5. Restart Keycloak
 After applying the custom theme and SPI changes, restart Keycloak:
@@ -217,10 +224,11 @@ docker restart keycloak
 ### 6. Verify the Setup
 React App: Open your React app at http://localhost:3000 in your browser. It should automatically redirect to Keycloak for authentication and display the custom login page.
 
-Keycloak: Visit http://localhost:8080 and verify the custom theme is applied to the login page.
+Keycloak: Visit http://localhost:7070 and verify the custom theme is applied to the login page.
 
 ### User Storage SPI: Verify that Keycloak is interacting with your external user service as expected.
 
+![p7](https://github.com/user-attachments/assets/11af49a3-6def-482d-9373-ee460335e2d4)
 
 
 
